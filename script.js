@@ -1,24 +1,19 @@
 const Gameboard = ((symbol) => {
     let gameboard = [];
-    let display = document.querySelectorAll('.display')
-    display.forEach((box) => {
-        function makeSelection() {
+    let _boardSpace = document.querySelectorAll('.square')
+    _boardSpace.forEach((space) => {
+        space.addEventListener('click', () => {
             let gameSymbol = document.createElement('div')
             gameSymbol.classList.add('symbol')
             gameSymbol.textContent = symbol;
-            box.appendChild(gameSymbol);
-        }
-        let boardSpace = document.querySelectorAll('.square')
-        boardSpace.forEach((space) => {
-            space.addEventListener('click', makeSelection)
+            space.appendChild(gameSymbol);
+            gameboard.push(space.textContent)
+         })
     })
     return {
-        boardSpace,
-        display
+        gameboard
     }
-    })
 })('O');
-
 const player = ((name) => {
     let playerName = () => {console.log(`${name}`)}
     let playerSelection = console.log()
