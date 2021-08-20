@@ -8,6 +8,30 @@ const player1 = player('Adam', 'X')
 const player2 = player('Brad', 'O')
 
 
+const Game = (() => {
+    let startGame = (player1, player2) => {
+        this.player1 = player1;
+        this.player2 = player2;
+    }
+
+    let currentPlayer; 
+    currentPlayer = player1
+    function takeTurns(e) {
+        e.target.textContent = currentPlayer.team;
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+            e.target.textContent = currentPlayer.team;
+        } else {
+            currentPlayer = player1;
+            e.target.textContent = currentPlayer.team
+        }
+    }
+    return {
+        startGame, 
+        takeTurns
+    }
+})();
+
 
 const Gameboard = (() => {
     let gameboard = [];
@@ -19,34 +43,22 @@ const Gameboard = (() => {
     }
     setName(player1.name, player2.name)
 
-    const makeSelection = (currentPlayer) => {
-        let _boardSpace = document.querySelectorAll('.square')
-        _boardSpace.forEach((space) => {
-            space.addEventListener('click', () => {
-                let gameSymbol = document.createElement('div')
-                gameSymbol.classList.add('symbol')
-                gameSymbol.textContent = currentPlayer.team
-                space.appendChild(gameSymbol);
-                gameboard.push(space.textContent)
-                space.disabled = true;
-            })
-        })
+    const createGrid = (rows, columns) => {
+        let board = document.querySelector('.mainBoard')
+        board.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        board.style.gridTemplateRows = `repeat(${rows}, 1fr)`
+        for(i = 0; i < (rows * columns); i++) {
+            let gameSymbol = document.createElement('div');
+            gameSymbol.addEventListener('click', Game.takeTurns)
+            gameSymbol.classList.add(i)
+            board.appendChild(gameSymbol).classList.add('gridSpace')
+        }
     }
-    makeSelection(player2)
+    createGrid(3,3)
+
     return {
         gameboard,
         setName,
-        makeSelection
-    }
-})();
-
-
-const Game = (() => {
-    let startGame = (player1, player2) => {
-        this.player1 = player1;
-        this.player2 = player2;
-    }
-    return {
-        startGame
+        createGrid
     }
 })();

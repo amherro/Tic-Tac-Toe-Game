@@ -3,11 +3,12 @@
 }
 .mainBoard {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
     border: 1px solid #000;
     width: 700px;
     height: 500px;
     text-align: center;
     justify-self: center;
+}
+.gridSpace {
+    border: 1px solid #000;
 }
